@@ -94,4 +94,30 @@ class QuadTree {
             point (p.x, p.y);
         }
     }
+
+    query(range, found) {
+        if (!found) {
+            found = [];
+        }
+
+        if (!range.intersects(this.boundary)) {
+            return found;
+        }
+
+        for (let p of this.points) {
+            if (range.contains(p)) {
+                count++;
+                found.push(p);
+            }
+        }
+
+        if (this.divided) {
+            this.northwest.query(range, found);
+            this.northeast.query(range, found);
+            this.southwest.query(range, found);
+            this.southeast.query(range, found);
+        }
+        return found;
+        
+    }
 }
